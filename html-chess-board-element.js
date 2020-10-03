@@ -140,7 +140,10 @@ class HTMLChessBoardElement extends HTMLElement {
             } else if (tile.piece instanceof Piece) {
                 this.clearPossibleMoves();
 
-                const moves = tile.piece.getMoves();
+                let moves = tile.piece.getMoves();
+                if (!moves) {
+                    moves = [];
+                }
                 
                 if (!Array.isArray(moves)
                     || moves.filter(move => !(move instanceof Coordinates)).length > 0) {
