@@ -15,36 +15,6 @@
         // Your code goes here.
         // For explanation, see README.md and reference.js
 
-        let Pawn = function (colour) {
-            Piece.call(this, symbols.PAWN, colour);
-        }
-        Pawn.prototype = Object.create(Piece.prototype);
-        Pawn.prototype.constructor = Pawn;
-        
-        Pawn.prototype.getMoves = function() {
-            let yDirection;
-
-            if (this._isWhite) {
-                yDirection = 1; // towards positive y
-            } else {
-                yDirection = -1; // towards negative y
-            }
-            
-            const newY = this._coordinates.y + yDirection;
-            
-            if (newY < 0 || newY > 7) {
-                // Hitting the wall
-                return;
-            }
-            
-            return [
-                new Coordinates(this._coordinates.x, newY)
-            ];
-        }
-
-        let myPawn = new Pawn(colours.WHITE);
-
-        board.getTileAt(new Coordinates(4, 4)).piece = myPawn;
     </script>
 </body>
 </html>
