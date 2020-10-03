@@ -113,7 +113,7 @@ let myPawn = new Pawn(colours.WHITE);
 board.getTileAt(new Coordinates(4, 4)).piece = myPawn;
 ```
 
-If you click on it, you will still get an error. That's because `getMoves` still comes from the `Pawn` prototype. We have to create our own implementation to hide `Pawn`'s implementation. This is called shadowing.
+If you click on it, you will still get an error. That's because `getMoves` still comes from the `Piece` prototype. We have to create our own implementation to hide `Pawn`'s implementation. This is called shadowing.
 
 For now, I'm going to return a static result:
 
