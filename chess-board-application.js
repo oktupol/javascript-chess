@@ -16,10 +16,14 @@ class HTMLChessBoardElement extends HTMLElement {
                 color: #111;
             }
         
-            h1 {
+            h1, #information {
                 width: 480px;
                 margin-left: 40px;
                 font-family: monospace;
+            }
+            
+            #information {
+                margin-bottom: .45em;
             }
         
             #y-descriptor, #x-descriptor {
@@ -91,6 +95,10 @@ class HTMLChessBoardElement extends HTMLElement {
         let title = document.createElement('h1');
         title.innerText = 'Chess in Javascript';
 
+        let information = document.createElement('div');
+        information.id = 'information';
+        information.innerHTML = `<a href="https://github.com/oktupol/javascript-chess">View this project on Github</a>`;
+
         let tileContainer = document.createElement('div');
         tileContainer.id = 'tile-container';
         
@@ -102,6 +110,7 @@ class HTMLChessBoardElement extends HTMLElement {
 
         this.shadowRoot.appendChild(board);
         board.appendChild(title);
+        board.appendChild(information);
         board.appendChild(yDescriptor);
         board.appendChild(tileContainer);
         board.appendChild(xDescriptor);
