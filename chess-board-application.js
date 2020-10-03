@@ -132,7 +132,7 @@ class HTMLChessBoardElement extends HTMLElement {
         }
         
         this.addEventListener('click', event => {
-            const clickPath = event.path;
+            const clickPath = event.composedPath();
             const tileArray = clickPath.filter(elem => elem instanceof HTMLChessTileElement);
 
             if (tileArray.length === 0) {
