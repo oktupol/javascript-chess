@@ -11,7 +11,6 @@ class HTMLChessBoardElement extends HTMLElement {
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: flex-end;
-                height: 510px;
                 width: 540px;
                 color: #111;
             }
