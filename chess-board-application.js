@@ -1,4 +1,4 @@
-class HTMLChessBoardElement extends HTMLElement {
+class ChessBoard extends HTMLElement {
     constructor() {
         super();
     
@@ -120,7 +120,7 @@ class HTMLChessBoardElement extends HTMLElement {
         for (let y = 7; y >= 0; y--) {
             this._tiles[y] = [];
             for (let x = 0; x < 8; x++) {
-                /** @var {HTMLChessTileElement} tile */
+                /** @var {ChessTile} tile */
                 let tile = document.createElement('div', { is: 'chess-tile' });
                 tile.coordinates = new Coordinates(x, y);
                 tile.board = this;
@@ -142,7 +142,7 @@ class HTMLChessBoardElement extends HTMLElement {
         
         this.addEventListener('click', event => {
             const clickPath = event.composedPath();
-            const tileArray = clickPath.filter(elem => elem instanceof HTMLChessTileElement);
+            const tileArray = clickPath.filter(elem => elem instanceof ChessTile);
 
             if (tileArray.length === 0) {
                 return;
@@ -191,7 +191,7 @@ class HTMLChessBoardElement extends HTMLElement {
     
     /**
      * @param {Coordinates} coordinates 
-     * @returns {HTMLChessTileElement}
+     * @returns {ChessTile}
      */
     getTileAt(coordinates) {
         return this._tiles[coordinates.y][coordinates.x];
@@ -224,9 +224,9 @@ class HTMLChessBoardElement extends HTMLElement {
             .filter(piece => piece.colour === colour);
     }
 }
-window.customElements.define('chess-board', HTMLChessBoardElement);
+window.customElements.define('chess-board', ChessBoard);
 
-class HTMLChessTileElement extends HTMLDivElement {
+class ChessTile extends HTMLDivElement {
     /**
      * @param {Coordinates} coordinates 
      */
@@ -285,7 +285,7 @@ class HTMLChessTileElement extends HTMLDivElement {
         if (piece instanceof Piece) {
             this._symbolHolder.textContent = piece.unicodeSymbol;
             
-            if (piece._tile instanceof HTMLChessTileElement) {
+            if (piece._tile instanceof ChessTile) {
                 piece._tile.piece = null;
             }
             
@@ -319,7 +319,7 @@ class HTMLChessTileElement extends HTMLDivElement {
         }
     }
 }
-window.customElements.define('chess-tile', HTMLChessTileElement, { extends: 'div' });
+window.customElements.define('chess-tile', ChessTile, { extends: 'div' });
 
 const colours = {
     WHITE: Symbol('white'),
@@ -413,7 +413,7 @@ let Piece = function(symbol, colour) {
     Reflect.defineProperty(this, '_board', {
         enumerable: false,
         get: () => {
-            if (this._tile instanceof HTMLChessTileElement) {
+            if (this._tile instanceof ChessTile) {
                 return this._tile.board;
             }
             return null;
@@ -423,7 +423,7 @@ let Piece = function(symbol, colour) {
     Reflect.defineProperty(this, '_coordinates', {
         enumerable: false,
         get: () => {
-            if (this._tile instanceof HTMLChessTileElement) {
+            if (this._tile instanceof ChessTile) {
                 return this._tile.coordinates;
             }
             return null

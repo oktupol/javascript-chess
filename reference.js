@@ -34,10 +34,10 @@ let Piece = function (symbol, colour) {
    * in your subtypes.
    */
 
-  /** @var {HTMLChessTileElement} _tile - the current tile the piece sits on. */
+  /** @var {ChessTile} _tile - the current tile the piece sits on. */
   this._tile;
 
-  /** @var {HTMLChessBoardElement} _board - the current chess board the piece sits on. */
+  /** @var {ChessBoard} _board - the current chess board the piece sits on. */
   this._board;
 
   /** @var {Coordinates} _coordinates - the current coordinates the piece sits on */
@@ -84,16 +84,16 @@ let Coordinates = function (x, y) {
 /**
  * Specification of the chess board.
  */
-let HTMLChessBoardElement = function () {};
+let ChessBoard = function () {};
 
 /**
  * This method will return a tile at the given coordinates. Example call:
  * board.getTileAt(new Coordinates(3, 4));
  *
  * @param {Coordinates} coordinates
- * @returns {HTMLChessTileElement}
+ * @returns {ChessTile}
  */
-HTMLChessBoardElement.prototype.getTileAt = function (coordinates) {};
+ChessBoard.prototype.getTileAt = function (coordinates) {};
 
 /**
  * This method will return a piece at the given coordinates. Example call:
@@ -102,20 +102,20 @@ HTMLChessBoardElement.prototype.getTileAt = function (coordinates) {};
  * @param {Coordinates} coordinates
  * @returns {Piece}
  */
-HTMLChessBoardElement.prototype.getPieceAt = function (coordinates) {};
+ChessBoard.prototype.getPieceAt = function (coordinates) {};
 
 /**
  * This method returns all pieces currently on the board in an array.
  * @returns {Piece[]}
  */
-HTMLChessBoardElement.prototype.getAllPieces = function () {}
+ChessBoard.prototype.getAllPieces = function () {}
 
 /**
  * This method returns all pieces of a certain colour on the board in an array.
  * @param {symbol} colour 
  * @returns {Piece[]}
  */
-HTMLChessBoardElement.prototype.getAllPiecesOfColour = function(colour) {}
+ChessBoard.prototype.getAllPiecesOfColour = function(colour) {}
 
 
 // **********************
@@ -125,7 +125,7 @@ HTMLChessBoardElement.prototype.getAllPiecesOfColour = function(colour) {}
 /**
  * Specification of a tile.
  */
-let HTMLChessTileElement = function () {
+let ChessTile = function () {
   /**
    * The piece that sits on the tile. You can set this property as you like. Example:
    *
