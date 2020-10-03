@@ -362,6 +362,13 @@ const symbolsUnicode = {
     }
 }
 
+class SymbolDefinition {
+    constructor(symbolForWhite, symbolForBlack) {
+        this[colours.WHITE] = symbolForWhite;
+        this[colours.BLACK] = symbolForBlack;
+    }
+}
+
 class Coordinates {
     /**
      * @param {number} x 

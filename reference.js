@@ -18,9 +18,8 @@
  * - symbols.PAWN, symbols.ROOK, symbols.KNIGHT, symbols.BISHOP, symbols.QUEEN, symbols.KING
  *   (a corresponding unicode symbol will be chosen then)
  * - a string (which will be displayed then)
- * - an object with the keys [colours.WHITE] and [colours.BLACK], and string values.
- *   Example: { [colours.WHITE]: "A", [colours.BLACK]: "B" }
- *   In this case, A will be displayed if the piece is white, or B will be displayed if the piece is black
+ * - A SymbolDefinition instance. For example `new SymbolDefinition('W', 'B')`.
+ *   In this case 'W' will be shown if the piece is white, or 'B' will be shown if the piece is black
  *
  * @param {symbol} colour - may be colours.WHITE or colours.BLACK
  */
