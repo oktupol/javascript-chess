@@ -174,7 +174,7 @@ Create pawns of both colours and see how they move in different directions!
 
 ### Continuing from here
 
-Implement some other chess pieces, or come up with your own pieces. Some challenges that I can think of are:
+Complete the Pawn by implementing its diagonal capture move and its opening two-tile move. Implement some other chess pieces, or come up with your own pieces. Some challenges that I can think of are:
 
 - A piece type that can only jump into the corners of the board, regardless of where it is
 - A piece that can only move, when there is another piece adjacent to it
