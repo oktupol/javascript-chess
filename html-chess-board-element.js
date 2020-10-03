@@ -298,6 +298,20 @@ let Piece = function(symbol, colour) {
         }
     });
     
+    Reflect.defineProperty(this, '_isWhite', {
+        enumerable: false,
+        get: () => {
+            return this.colour === colours.WHITE
+        }
+    });
+
+    Reflect.defineProperty(this, '_isBlack', {
+        enumerable: false,
+        get: () => {
+            return this.colour === colours.BLACK
+        }
+    });
+    
     Reflect.defineProperty(this, 'unicodeSymbol', {
         enumerable: false,
         get: () => {
