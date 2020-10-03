@@ -180,8 +180,10 @@ Create pawns of both colours and see how they move in different directions!
 Implement some other chess pieces, or come up with your own pieces. Some challenges that I can think of are:
 
 - A piece type that can only jump into the corners of the board, regardless of where it is
-- A piece that can only move, when there is another piece next to it
+- A piece that can only move, when there is another piece adjacent to it
+- A piece that can only move if it jumps over an adjacent piece
 - A piece that can only swap places with one other "friend" piece
+- A piece that can only move towards the piece on the board, which is the farthest away from itself.
 - The chess castling move, where a king moves two to the side, and a rook takes the king's original place
 - The chess en-passant move, where a pawn may capture an enemy pawn standing next to it (and not diagonally in front of it), if the enemy pawn just moved two fields forward.
 - Disallow moves that would cause the king to be in check. Use the `board.getAllPiecesOfColour` and `piece.getMoves` methods for this.
