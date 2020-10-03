@@ -1,12 +1,17 @@
-class ChessBoard extends HTMLElement {
+((window) => {
+  const chessBoardFields = {
+    tiles: Symbol('tiles')
+  };
+
+  class ChessBoard extends HTMLElement {
     constructor() {
-        super();
-    
-        this.attachShadow({mode: "open"});
-        
-        let styles = document.createElement('style');
-        this.shadowRoot.appendChild(styles);
-        styles.textContent = `
+      super();
+
+      this.attachShadow({ mode: "open" });
+
+      let styles = document.createElement("style");
+      this.shadowRoot.appendChild(styles);
+      styles.textContent = `
             #board {
                 display: flex;
                 flex-wrap: wrap;
@@ -88,386 +93,410 @@ class ChessBoard extends HTMLElement {
                 background-color: #8c8;
             }
         `;
-        
-        let board = document.createElement('div');
-        board.id = 'board';
-        
-        let title = document.createElement('h1');
-        title.innerText = 'Chess in Javascript';
 
-        let information = document.createElement('div');
-        information.id = 'information';
-        information.innerHTML = `<a href="https://github.com/oktupol/javascript-chess">View this project on Github</a>`;
+      let board = document.createElement("div");
+      board.id = "board";
 
-        let tileContainer = document.createElement('div');
-        tileContainer.id = 'tile-container';
-        
-        let xDescriptor = document.createElement('div');
-        xDescriptor.id = 'x-descriptor';
+      let title = document.createElement("h1");
+      title.innerText = "Chess in Javascript";
 
-        let yDescriptor = document.createElement('div');
-        yDescriptor.id = 'y-descriptor';
+      let information = document.createElement("div");
+      information.id = "information";
+      information.innerHTML = `<a href="https://github.com/oktupol/javascript-chess">View this project on Github</a>`;
 
-        this.shadowRoot.appendChild(board);
-        board.appendChild(title);
-        board.appendChild(information);
-        board.appendChild(yDescriptor);
-        board.appendChild(tileContainer);
-        board.appendChild(xDescriptor);
-        
-        this._tiles = [];
-        
-        for (let y = 7; y >= 0; y--) {
-            this._tiles[y] = [];
-            for (let x = 0; x < 8; x++) {
-                /** @var {ChessTile} tile */
-                let tile = document.createElement('div', { is: 'chess-tile' });
-                tile.coordinates = new Coordinates(x, y);
-                tile.board = this;
-                tileContainer.appendChild(tile);
-                this._tiles[y][x] = tile;
-            }
+      let tileContainer = document.createElement("div");
+      tileContainer.id = "tile-container";
+
+      let xDescriptor = document.createElement("div");
+      xDescriptor.id = "x-descriptor";
+
+      let yDescriptor = document.createElement("div");
+      yDescriptor.id = "y-descriptor";
+
+      this.shadowRoot.appendChild(board);
+      board.appendChild(title);
+      board.appendChild(information);
+      board.appendChild(yDescriptor);
+      board.appendChild(tileContainer);
+      board.appendChild(xDescriptor);
+
+      this[chessBoardFields.tiles] = [];
+
+      for (let y = 7; y >= 0; y--) {
+        this[chessBoardFields.tiles][y] = [];
+        for (let x = 0; x < 8; x++) {
+          /** @var {ChessTile} tile */
+          let tile = document.createElement("div", { is: "chess-tile" });
+          tile.coordinates = new Coordinates(x, y);
+          tile.board = this;
+          tileContainer.appendChild(tile);
+          this[chessBoardFields.tiles][y][x] = tile;
         }
-        
-        for (let i = 0; i < 8; i++) {
-            let xLabel = document.createElement('div');
-            let yLabel = document.createElement('div');
-            
-            xLabel.innerText = `x: ${i}`;
-            yLabel.innerText = `y: ${i}`;
-            
-            xDescriptor.appendChild(xLabel);
-            yDescriptor.appendChild(yLabel);
+      }
+
+      for (let i = 0; i < 8; i++) {
+        let xLabel = document.createElement("div");
+        let yLabel = document.createElement("div");
+
+        xLabel.innerText = `x: ${i}`;
+        yLabel.innerText = `y: ${i}`;
+
+        xDescriptor.appendChild(xLabel);
+        yDescriptor.appendChild(yLabel);
+      }
+
+      this.addEventListener("click", (event) => {
+        const clickPath = event.composedPath();
+        const tileArray = clickPath.filter((elem) => elem instanceof ChessTile);
+
+        if (tileArray.length === 0) {
+          return;
+        } else if (tileArray.length > 1) {
+          throw new Error("Clicked on multiple tiles at once");
         }
-        
-        this.addEventListener('click', event => {
-            const clickPath = event.composedPath();
-            const tileArray = clickPath.filter(elem => elem instanceof ChessTile);
 
-            if (tileArray.length === 0) {
-                return;
-            } else if (tileArray.length > 1) {
-                throw new Error("Clicked on multiple tiles at once");
-            }
-            
-            /** @var {TMLChessTileElement} tile */
-            const tile = tileArray[0];
-            
-            if (tile.possibleMove instanceof PossibleMove) {
-                const target = this.getTileAt(tile.possibleMove.coordinates);
-                target.piece = tile.possibleMove.piece;
+        /** @var {TMLChessTileElement} tile */
+        const tile = tileArray[0];
 
-                this.clearPossibleMoves();
-            } else if (tile.piece instanceof Piece) {
-                this.clearPossibleMoves();
+        if (tile.possibleMove instanceof PossibleMove) {
+          const target = this.getTileAt(tile.possibleMove.coordinates);
+          target.piece = tile.possibleMove.piece;
 
-                let moves = tile.piece.getMoves();
-                if (!moves) {
-                    moves = [];
-                }
-                
-                if (!Array.isArray(moves)
-                    || moves.filter(move => !(move instanceof Coordinates)).length > 0) {
-                    throw new Error('"getMoves" must return an array of coordinates.');
-                }
-                
-                for (const move of moves) {
-                    this.getTileAt(move).possibleMove = new PossibleMove(tile.piece, move);
-                }
-            } else {
-                this.clearPossibleMoves();
-            }
-        });
-        
+          this.clearPossibleMoves();
+        } else if (tile.piece instanceof Piece) {
+          this.clearPossibleMoves();
+
+          let moves = tile.piece.getMoves();
+          if (!moves) {
+            moves = [];
+          }
+
+          if (
+            !Array.isArray(moves) ||
+            moves.filter((move) => !(move instanceof Coordinates)).length > 0
+          ) {
+            throw new Error('"getMoves" must return an array of coordinates.');
+          }
+
+          for (const move of moves) {
+            this.getTileAt(move).possibleMove = new PossibleMove(
+              tile.piece,
+              move
+            );
+          }
+        } else {
+          this.clearPossibleMoves();
+        }
+      });
     }
 
     clearPossibleMoves() {
-        this._tiles.forEach(
-            tileRow => tileRow.forEach(
-                tile => tile.possibleMove = null
-            )
-        );
+      this[chessBoardFields.tiles].forEach((tileRow) =>
+        tileRow.forEach((tile) => (tile.possibleMove = null))
+      );
     }
-    
+
     /**
-     * @param {Coordinates} coordinates 
+     * @param {Coordinates} coordinates
      * @returns {ChessTile}
      */
     getTileAt(coordinates) {
-        return this._tiles[coordinates.y][coordinates.x];
+      return this[chessBoardFields.tiles][coordinates.y][coordinates.x];
     }
-    
+
     /**
-     * @param {Coordinates} coordinates 
+     * @param {Coordinates} coordinates
      * @returns {Piece}
      */
     getPieceAt(coordinates) {
-        return this.getTileAt(coordinates).piece;
+      return this.getTileAt(coordinates).piece;
     }
-    
+
     /**
      * @returns {Piece[]}
      */
     getAllPieces() {
-        return this._tiles
-            .flat()
-            .map(tile => tile.piece)
-            .filter(piece => piece);
+      return this[chessBoardFields.tiles]
+        .flat()
+        .map((tile) => tile.piece)
+        .filter((piece) => piece);
     }
-    
+
     /**
-     * @param {symbol} colour 
+     * @param {symbol} colour
      * @returns {Piece[]}
      */
     getAllPiecesOfColour(colour) {
-        return this.getAllPieces()
-            .filter(piece => piece.colour === colour);
+      return this.getAllPieces().filter((piece) => piece.colour === colour);
     }
-}
-window.customElements.define('chess-board', ChessBoard);
+  }
+  window.customElements.define("chess-board", ChessBoard);
+  
+  const chessTileFields = {
+    coordinates: Symbol('coordinates'),
+    piece: Symbol('piece'),
+    possibleMove: Symbol('possibleMove'),
+    symbolHolder: Symbol('symbolHolder'),
+  };
 
-class ChessTile extends HTMLDivElement {
+  class ChessTile extends HTMLDivElement {
     /**
-     * @param {Coordinates} coordinates 
+     * @param {Coordinates} coordinates
      */
     constructor() {
-        super();
-        this.board = null;
-        this._coordinates = null;
-        this._piece = null;
-        this._possbileMove = null;
-        
-        this._symbolHolder = document.createElement('span');
-        this.appendChild(this._symbolHolder);
+      super();
+      this.board = null;
+      this[chessTileFields.coordinates] = null;
+      this[chessTileFields.piece] = null;
+      this[chessTileFields.possibleMove] = null;
+
+      this[chessTileFields.symbolHolder] = document.createElement("span");
+      this.appendChild(this[chessTileFields.symbolHolder]);
     }
-    
+
     /**
      * @returns {Coordinates}
      */
     get coordinates() {
-        return this._coordinates;
+      return this[chessTileFields.coordinates];
     }
-    
+
     /**
      * @param {Coordinates} coordinates
      */
     set coordinates(coordinates) {
-        if (this._coordinates) {
-            throw new Error("Cannot redefine coordinates of existing tiles");
-        }
+      if (this[chessTileFields.coordinates]) {
+        throw new Error("Cannot redefine coordinates of existing tiles");
+      }
 
-        this._coordinates = coordinates;
-        
-        if ((coordinates.x + coordinates.y) % 2 == 0) {
-            this.classList.add('dark-tile');
-        } else {
-            this.classList.add('light-tile');
-        }
+      this[chessTileFields.coordinates] = coordinates;
+
+      if ((coordinates.x + coordinates.y) % 2 == 0) {
+        this.classList.add("dark-tile");
+      } else {
+        this.classList.add("light-tile");
+      }
     }
-    
+
     /**
      * @returns {Piece}
      */
     get piece() {
-        return this._piece;
+      return this[chessTileFields.piece];
     }
-    
+
     /**
      * @param {Piece} piece
      */
     set piece(piece) {
-        if (this._piece instanceof Piece) {
-            this._piece._tile = null;
+      if (this[chessTileFields.piece] instanceof Piece) {
+        this[chessTileFields.piece]._tile = null;
+      }
+
+      this[chessTileFields.piece] = piece;
+
+      if (piece instanceof Piece) {
+        this[chessTileFields.symbolHolder].textContent = piece.unicodeSymbol;
+
+        if (piece._tile instanceof ChessTile) {
+          piece._tile.piece = null;
         }
-        
-        this._piece = piece;
-        
-        if (piece instanceof Piece) {
-            this._symbolHolder.textContent = piece.unicodeSymbol;
-            
-            if (piece._tile instanceof ChessTile) {
-                piece._tile.piece = null;
-            }
-            
-            piece._tile = this;
-            
-            this.classList.add('has-piece');
-        } else {
-            this._symbolHolder.textContent = '';
-            
-            this.classList.remove('has-piece');
-        }
+
+        piece._tile = this;
+
+        this.classList.add("has-piece");
+      } else {
+        this[chessTileFields.symbolHolder].textContent = "";
+
+        this.classList.remove("has-piece");
+      }
     }
-    
+
     /**
      * @returns {PossibleMove}
      */
     get possibleMove() {
-        return this._possibleMove;
+      return this[chessTileFields.possibleMove];
     }
-    
+
     /**
      * @param {PossibleMove} possibleMove
      */
     set possibleMove(possibleMove) {
-        if (possibleMove instanceof PossibleMove) {
-            this._possibleMove = possibleMove;
-            this.classList.add('possible-move');
-        } else {
-            this._possibleMove = null;
-            this.classList.remove('possible-move');
-        }
+      if (possibleMove instanceof PossibleMove) {
+        this[chessTileFields.possibleMove] = possibleMove;
+        this.classList.add("possible-move");
+      } else {
+        this[chessTileFields.possibleMove] = null;
+        this.classList.remove("possible-move");
+      }
     }
-}
-window.customElements.define('chess-tile', ChessTile, { extends: 'div' });
+  }
+  window.customElements.define("chess-tile", ChessTile, { extends: "div" });
 
-const colours = {
-    WHITE: Symbol('white'),
-    BLACK: Symbol('black'),
-};
+  const colours = {
+    WHITE: Symbol("white"),
+    BLACK: Symbol("black"),
+  };
 
-const symbols = {
-    ROOK: Symbol('rook'),
-    KNIGHT: Symbol('knight'),
-    BISHOP: Symbol('bishop'),
-    QUEEN: Symbol('queen'),
-    KING: Symbol('king'),
-    PAWN: Symbol('pawn'),
-}
+  const symbols = {
+    ROOK: Symbol("rook"),
+    KNIGHT: Symbol("knight"),
+    BISHOP: Symbol("bishop"),
+    QUEEN: Symbol("queen"),
+    KING: Symbol("king"),
+    PAWN: Symbol("pawn"),
+  };
 
-const symbolsUnicode = {
+  const symbolsUnicode = {
     [symbols.ROOK]: {
-        [colours.WHITE]: '♖',
-        [colours.BLACK]: '♜',
+      [colours.WHITE]: "♖",
+      [colours.BLACK]: "♜",
     },
     [symbols.KNIGHT]: {
-        [colours.WHITE]: '♘',
-        [colours.BLACK]: '♞',
+      [colours.WHITE]: "♘",
+      [colours.BLACK]: "♞",
     },
     [symbols.BISHOP]: {
-        [colours.WHITE]: '♗',
-        [colours.BLACK]: '♝',
+      [colours.WHITE]: "♗",
+      [colours.BLACK]: "♝",
     },
     [symbols.QUEEN]: {
-        [colours.WHITE]: '♕',
-        [colours.BLACK]: '♛',
+      [colours.WHITE]: "♕",
+      [colours.BLACK]: "♛",
     },
     [symbols.KING]: {
-        [colours.WHITE]: '♔',
-        [colours.BLACK]: '♚',
+      [colours.WHITE]: "♔",
+      [colours.BLACK]: "♚",
     },
     [symbols.PAWN]: {
-        [colours.WHITE]: '♙',
-        [colours.BLACK]: '♟︎',
-    }
-}
+      [colours.WHITE]: "♙",
+      [colours.BLACK]: "♟︎",
+    },
+  };
 
-class SymbolDefinition {
+  class SymbolDefinition {
     constructor(symbolForWhite, symbolForBlack) {
-        this[colours.WHITE] = symbolForWhite;
-        this[colours.BLACK] = symbolForBlack;
+      this[colours.WHITE] = symbolForWhite;
+      this[colours.BLACK] = symbolForBlack;
     }
-}
+  }
 
-class Coordinates {
+  const coordinatesFields = {
+    validateCoordinate: Symbol('validateCoordinate')
+  };
+
+  class Coordinates {
     /**
-     * @param {number} x 
-     * @param {number} y 
+     * @param {number} x
+     * @param {number} y
      */
     constructor(x, y) {
-        this.x = this._validateCoordinate('x', x);
-        this.y = this._validateCoordinate('y', y);
+      this.x = this[coordinatesFields.validateCoordinate]("x", x);
+      this.y = this[coordinatesFields.validateCoordinate]("y", y);
     }
-    
+
     /**
-     * @param {string} name 
-     * @param {number} value 
+     * @param {string} name
+     * @param {number} value
      * @returns {number}
      */
-    _validateCoordinate(name, value) {
-        if (value < 0 || value > 7) {
-            throw new TypeError(`Coordinate ${name} must be between 0 and 7. Got ${value}.`);
-        }
-        return value;
+    [coordinatesFields.validateCoordinate](name, value) {
+      if (value < 0 || value > 7) {
+        throw new TypeError(
+          `Coordinate ${name} must be between 0 and 7. Got ${value}.`
+        );
+      }
+      return value;
     }
-}
+  }
 
-class PossibleMove {
+  class PossibleMove {
     /**
-     * @param {Piece} piece 
-     * @param {Coordinates} coordinates 
+     * @param {Piece} piece
+     * @param {Coordinates} coordinates
      */
     constructor(piece, coordinates) {
-        this.piece = piece;
-        this.coordinates = coordinates;
+      this.piece = piece;
+      this.coordinates = coordinates;
     }
-}
+  }
 
-/**
- * @param {symbol} symbol 
- * @param {symbol} colour 
- */
-let Piece = function(symbol, colour) {
+  /**
+   * @param {symbol} symbol
+   * @param {symbol} colour
+   */
+  let Piece = function (symbol, colour) {
     this.symbol = symbol;
     this.colour = colour;
 
-    Reflect.defineProperty(this, '_tile', {
-        enumerable: false,
-        writable: true,
-        value: null
-    });
-    
-    Reflect.defineProperty(this, '_board', {
-        enumerable: false,
-        get: () => {
-            if (this._tile instanceof ChessTile) {
-                return this._tile.board;
-            }
-            return null;
-        }
-    });
-    
-    Reflect.defineProperty(this, '_coordinates', {
-        enumerable: false,
-        get: () => {
-            if (this._tile instanceof ChessTile) {
-                return this._tile.coordinates;
-            }
-            return null
-        }
-    });
-    
-    Reflect.defineProperty(this, '_isWhite', {
-        enumerable: false,
-        get: () => {
-            return this.colour === colours.WHITE
-        }
+    Reflect.defineProperty(this, "_tile", {
+      enumerable: false,
+      writable: true,
+      value: null,
     });
 
-    Reflect.defineProperty(this, '_isBlack', {
-        enumerable: false,
-        get: () => {
-            return this.colour === colours.BLACK
+    Reflect.defineProperty(this, "_board", {
+      enumerable: false,
+      get: () => {
+        if (this._tile instanceof ChessTile) {
+          return this._tile.board;
         }
+        return null;
+      },
     });
-    
-    Reflect.defineProperty(this, 'unicodeSymbol', {
-        enumerable: false,
-        get: () => {
-            if (typeof this.symbol === 'symbol') {
-                return symbolsUnicode[this.symbol][this.colour];
-            } else if (typeof this.symbol === 'string') {
-                return this.symbol;
-            } else {
-                return this.symbol[this.colour];
-            }
-        }
-    });
-};
 
-/**
- * @returns {Coordinates[]}
- */
-Piece.prototype.getMoves = function() {
-    throw new TypeError('The abstract "Piece" type doesn\'t support getMoves. You need to create your own type that inherits from "Piece".');
-}
+    Reflect.defineProperty(this, "_coordinates", {
+      enumerable: false,
+      get: () => {
+        if (this._tile instanceof ChessTile) {
+          return this._tile.coordinates;
+        }
+        return null;
+      },
+    });
+
+    Reflect.defineProperty(this, "_isWhite", {
+      enumerable: false,
+      get: () => {
+        return this.colour === colours.WHITE;
+      },
+    });
+
+    Reflect.defineProperty(this, "_isBlack", {
+      enumerable: false,
+      get: () => {
+        return this.colour === colours.BLACK;
+      },
+    });
+
+    Reflect.defineProperty(this, "unicodeSymbol", {
+      enumerable: false,
+      get: () => {
+        if (typeof this.symbol === "symbol") {
+          return symbolsUnicode[this.symbol][this.colour];
+        } else if (typeof this.symbol === "string") {
+          return this.symbol;
+        } else {
+          return this.symbol[this.colour];
+        }
+      },
+    });
+  };
+
+  /**
+   * @returns {Coordinates[]}
+   */
+  Piece.prototype.getMoves = function () {
+    throw new TypeError(
+      'The abstract "Piece" type doesn\'t support getMoves. You need to create your own type that inherits from "Piece".'
+    );
+  };
+  
+  window.Coordinates = Coordinates;
+  window.Piece = Piece;
+  window.SymbolDefinition = SymbolDefinition;
+  
+  window.symbols = symbols;
+  window.colours = colours;
+})(window);
