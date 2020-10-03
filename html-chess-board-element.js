@@ -63,9 +63,17 @@ class HTMLChessBoardElement extends HTMLElement {
             #tile-container div.light-tile {
                 background: #ddd;
             }
-        
+            #tile-container div.possible-move {
+                cursor: pointer;
+            }
+            #tile-container div.light-tile.possible-move {
+                background: #bfb;
+            }
             #tile-container div.dark-tile {
                 background-color: #aaa;
+            }
+            #tile-container div.dark-tile.possible-move {
+                background-color: #8c8;
             }
         `;
         
@@ -110,6 +118,51 @@ class HTMLChessBoardElement extends HTMLElement {
             xDescriptor.appendChild(xLabel);
             yDescriptor.appendChild(yLabel);
         }
+        
+        this.addEventListener('click', event => {
+            const clickPath = event.path;
+            const tileArray = clickPath.filter(elem => elem instanceof HTMLChessTileElement);
+
+            if (tileArray.length === 0) {
+                return;
+            } else if (tileArray.length > 1) {
+                throw new Error("Clicked on multiple tiles at once");
+            }
+            
+            /** @var {TMLChessTileElement} tile */
+            const tile = tileArray[0];
+            
+            if (tile.possibleMove instanceof PossibleMove) {
+                const target = this.getTileAt(tile.possibleMove.coordinates);
+                target.piece = tile.possibleMove.piece;
+
+                this.clearPossibleMoves();
+            } else if (tile.piece instanceof Piece) {
+                this.clearPossibleMoves();
+
+                const moves = tile.piece.getMoves();
+                
+                if (!Array.isArray(moves)
+                    || moves.filter(move => !(move instanceof Coordinates)).length > 0) {
+                    throw new Error('"getMoves" must return an array of coordinates.');
+                }
+                
+                for (const move of moves) {
+                    this.getTileAt(move).possibleMove = new PossibleMove(tile.piece, move);
+                }
+            } else {
+                this.clearPossibleMoves();
+            }
+        });
+        
+    }
+
+    clearPossibleMoves() {
+        this._tiles.forEach(
+            tileRow => tileRow.forEach(
+                tile => tile.possibleMove = null
+            )
+        );
     }
     
     /**
@@ -139,6 +192,7 @@ class HTMLChessTileElement extends HTMLDivElement {
         this.board = null;
         this._coordinates = null;
         this._piece = null;
+        this._possbileMove = null;
         
         this._symbolHolder = document.createElement('span');
         this.appendChild(this._symbolHolder);
@@ -155,6 +209,10 @@ class HTMLChessTileElement extends HTMLDivElement {
      * @param {Coordinates} coordinates
      */
     set coordinates(coordinates) {
+        if (this._coordinates) {
+            throw new Error("Cannot redefine coordinates of existing tiles");
+        }
+
         this._coordinates = coordinates;
         
         if ((coordinates.x + coordinates.y) % 2 == 0) {
@@ -195,6 +253,26 @@ class HTMLChessTileElement extends HTMLDivElement {
             this._symbolHolder.textContent = '';
             
             this.classList.remove('has-piece');
+        }
+    }
+    
+    /**
+     * @returns {PossibleMove}
+     */
+    get possibleMove() {
+        return this._possibleMove;
+    }
+    
+    /**
+     * @param {PossibleMove} possibleMove
+     */
+    set possibleMove(possibleMove) {
+        if (possibleMove instanceof PossibleMove) {
+            this._possibleMove = possibleMove;
+            this.classList.add('possible-move');
+        } else {
+            this._possibleMove = null;
+            this.classList.remove('possible-move');
         }
     }
 }
@@ -261,6 +339,17 @@ class Coordinates {
             throw new TypeError(`Coordinate ${name} must be between 0 and 7. Got ${value}.`);
         }
         return value;
+    }
+}
+
+class PossibleMove {
+    /**
+     * @param {Piece} piece 
+     * @param {Coordinates} coordinates 
+     */
+    constructor(piece, coordinates) {
+        this.piece = piece;
+        this.coordinates = coordinates;
     }
 }
 
