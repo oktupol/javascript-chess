@@ -29,7 +29,6 @@ Now, what happened here? Using the `Piece` constructor, we created an object wit
 The `Piece` constructor takes two arguments. A symbol, which will later be displayed on the chessboard, and a colour. The colour is either `colours.BLACK` or `colours.WHITE` - two values that come with the application. The symbol may be one of three things:
 
 - A pre-defined chess symbol. This application comes with `symbols.PAWN`, `symbols.ROOK`, `symbols.KNIGHT`, `symbols.BISHOP`, `symbols.QUEEN`, `symbols.KING`. These are going to be automatically translated into Unicode chess-piece symbols.
-- An object with the keys `[colour.BLACK]` and `[colour.WHITE]`, each key containing a string value. In this case, different strings will be shown on the board depending whether the piece is black or white
 - A `SymbolDefinition` object, which can be created with `new SymbolDefinition(symbolForWhite, symbolForBlack)`. The two arguments are strings, of which the one corresponding to the piece's colour is used for display.
 - A string. In this case, the string will be used for display.
 
