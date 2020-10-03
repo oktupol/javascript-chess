@@ -57,6 +57,7 @@ class HTMLChessBoardElement extends HTMLElement {
                 width: 480px;
                 height: 480px;
                 user-select: none;
+                font-family: sans-serif;
             }
         
             #tile-container div {
