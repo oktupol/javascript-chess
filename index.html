@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Chess in Javascript</title>
+    <script src="html-chess-board-element.js" type="text/javascript"></script>
+</head>
+<body>
+    <h1>Chess in Javascript</h1> 
+   
+    <chess-board id="chess-board"></chess-board>
+
+    <script type="text/javascript">
+        const chessBoard = document.getElementById('chess-board');
+        
+        function Pawn(colour) {
+            Piece.call(this, symbols.PAWN, colour);
+        }
+        Pawn.prototype = Object.create(Piece.prototype);
+        Pawn.prototype.constructor = Pawn;
+
+        Pawn.prototype.getMoves = function () {
+            let yDirection = 0;
+            switch(this.colour) {
+                case colours.WHITE:
+                    yDirection = 1;
+                    break;
+                case colours.BLACK:
+                    yDirection = -1;
+                    break;
+            }
+            
+            let newX = this._coordinates.x;
+            let newY = this._coordinates.y + yDirection;
+            
+            if (newY >= 8 || newY < 0) {
+                return;
+            } else {
+                return [new Coordinates(newX, newY)];
+            }
+        }
+    </script>
+</body>
+</html>
