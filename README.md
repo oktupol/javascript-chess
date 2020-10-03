@@ -170,7 +170,7 @@ return [
 ];
 ```
 
-![The complete getMoves method](readme-imges/006.jpg)
+![The complete getMoves method](readme-imges/006.png)
 
 Go ahead, click on the pawn now. It'll move only one tile forward, and always to the one directly in front of it.
 Create pawns of both colours and see how they move in different directions!
