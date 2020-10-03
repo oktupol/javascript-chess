@@ -104,6 +104,19 @@ HTMLChessBoardElement.prototype.getTileAt = function (coordinates) {};
  */
 HTMLChessBoardElement.prototype.getPieceAt = function (coordinates) {};
 
+/**
+ * This method returns all pieces currently on the board in an array.
+ * @returns {Piece[]}
+ */
+HTMLChessBoardElement.prototype.getAllPieces = function () {}
+
+/**
+ * This method returns all pieces of a certain colour on the board in an array.
+ * @param {symbol} colour 
+ * @returns {Piece[]}
+ */
+HTMLChessBoardElement.prototype.getAllPiecesOfColour = function(colour) {}
+
 
 // **********************
 // ** CHESS BOARD TILE **

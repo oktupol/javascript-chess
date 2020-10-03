@@ -195,6 +195,25 @@ class HTMLChessBoardElement extends HTMLElement {
     getPieceAt(coordinates) {
         return this.getTileAt(coordinates).piece;
     }
+    
+    /**
+     * @returns {Piece[]}
+     */
+    getAllPieces() {
+        return this._tiles
+            .flat()
+            .map(tile => tile.piece)
+            .filter(piece => piece);
+    }
+    
+    /**
+     * @param {symbol} colour 
+     * @returns {Piece[]}
+     */
+    getAllPiecesOfColour(colour) {
+        return this.getAllPieces()
+            .filter(piece => piece.colour === colour);
+    }
 }
 window.customElements.define('chess-board', HTMLChessBoardElement);
 
