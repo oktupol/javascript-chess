@@ -21,6 +21,7 @@
              */
             let Piece = function(symbol, colour) {
                 this.symbol = symbol;
+                this.colour = colour;
 
                 /*
                  * The "Piece" type comes with some helper fields that are automatically set
@@ -37,10 +38,10 @@
                 /** @var {Coordinates} _coordinates - the current coordinates the piece sits on */
                 this._coordinates;
                 
-                /** @var {boolean} _isWhite - true, if the piece is white, oterwise false */
+                /** @var {boolean} _isWhite - true, if the piece is white, otherwise false */
                 this._isWhite;
 
-                /** @var {boolean} _isBlack - true, if the piece is black, oterwise false */
+                /** @var {boolean} _isBlack - true, if the piece is black, otherwise false */
                 this._isBlack;
             }
             
