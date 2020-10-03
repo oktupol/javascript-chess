@@ -75,7 +75,7 @@ An error popped up, and rightly so. The `Piece` type is quite abstract. Javascri
 
 ### Our first own piece
 
-Let's start with an easy one. Let's implement a pawn. For our purposes, pawns can move one tile in one direction. Upwards, if they're white, and downwards, if they're black. For the purpose of this tutorial, I'm not going to cover capturing rules, en passant rules or the starting move that allows the pawn to move two tiles.
+Let's start with an easy one. We're going to implement a pawn. For our purposes, pawns can move one tile in one direction. Upwards, if they're white, and downwards, if they're black. For the purpose of this tutorial, I'm not going to cover capturing rules, en passant rules or the starting move that allows the pawn to move two tiles.
 
 By now, it is recommended to have your own copy of the application locally.
 
@@ -134,7 +134,7 @@ If you click on the pawn now, you will see some green tiles
 These tiles correspond to the coordinates returned by the `getMoves` function. Click on a green tile now, and see how the pawn jumps over to its new location.
 
 Of course, a pawn that jumps between two locations is neither useful, nor accurate regarding the rules of chess.
-Let's complete the logic. First, we're going to determine the direction in which the pawn may move. Let's recap: white pawns move upwards, black pawns move downwards. In terms of coordinates, white pawns move towards positive `y`s, black pawns towards negative `y`s. I'm going to capture this property with a variable called `yDirection`. I'm also making use of the fields `_coordinates`, `_isWhite` and `_isBlack` provided by `Piece`. More info on that can be found in `reference.js`.
+Now we have to complete the logic. First, we're going to determine the direction in which the pawn may move. Let's recap: white pawns move upwards, black pawns move downwards. In terms of coordinates, white pawns move towards positive `y`s, black pawns towards negative `y`s. I'm going to capture this property with a variable called `yDirection`. I'm also making use of the fields `_coordinates`, `_isWhite` and `_isBlack` provided by `Piece`. More info on that can be found in `reference.js`.
 
 ```
 Pawn.prototype.getMoves = function() {
