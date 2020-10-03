@@ -4,9 +4,76 @@
     <meta charset="utf-8">
     <title>Chess in Javascript</title>
     <script src="html-chess-board-element.js" type="text/javascript"></script>
-    
+</head>
+<body>
+    <chess-board id="chess-board"></chess-board>
+
+    <script type="text/javascript">
+        /** @var {HTMLChessBoardElement} chessBoard */
+        const chessBoard = document.getElementById('chess-board');
+        
+        function Pawn(colour) {
+            Piece.call(this, symbols.PAWN, colour);
+        }
+        Pawn.prototype = Object.create(Piece.prototype);
+        Pawn.prototype.constructor = Pawn;
+
+        Pawn.prototype.getMoves = function () {
+            let yDirection = 0;
+            switch(this.colour) {
+                case colours.WHITE:
+                    yDirection = 1;
+                    break;
+                case colours.BLACK:
+                    yDirection = -1;
+                    break;
+            }
+            
+            let newX = this._coordinates.x;
+            let newY = this._coordinates.y + yDirection;
+            
+            if (newY >= 8 || newY < 0) {
+                return;
+            } else {
+                return [new Coordinates(newX, newY)];
+            }
+        }
+
+        function CornerJumper(colour) {
+            Piece.call(this, {
+                [colours.BLACK]: '😂',
+                [colours.WHITE]: '😭'
+            }, colour);
+        }
+        CornerJumper.prototype = Object.create(Piece.prototype);
+        CornerJumper.prototype.constructor = CornerJumper;
+        
+        CornerJumper.prototype.getMoves = function () {
+            return [
+                new Coordinates(0, 0),
+                new Coordinates(0, 7),
+                new Coordinates(7, 7),
+                new Coordinates(7, 0)
+            ];
+        }
+        
+        let pawn1 = new Pawn(colours.WHITE);
+        chessBoard.getTileAt(new Coordinates(3, 1)).piece = pawn1;
+        
+        let pawn2 = new Pawn(colours.BLACK);
+        chessBoard.getTileAt(new Coordinates(4, 6)).piece = pawn2;
+        
+        let cornerJumper = new CornerJumper(colours.BLACK);
+        chessBoard.getTileAt(new Coordinates(5, 5)).piece = cornerJumper;
+    </script>
     <script>
         (() => {
+            // ****************************
+            // *                          *
+            // *       Reference          *
+            // *                          *
+            // **************************** 
+            
             // **********************
             // ****** PIECE *********
             // **********************
@@ -15,7 +82,12 @@
              * Specification of the "Piece" prototype. The actual implementation is located in above javascript file.
              * 
              * @param {symbol} symbol - may be one of following:
-             * symbols.PAWN, symbols.ROOK, symbols.KNIGHT, symbols.BISHOP, symbols.QUEEN, symbols.KING
+             * - symbols.PAWN, symbols.ROOK, symbols.KNIGHT, symbols.BISHOP, symbols.QUEEN, symbols.KING
+             *   (a corresponding unicode symbol will be chosen then)
+             * - a string (which will be displayed then)
+             * - an object with the keys [colours.WHITE] and [colours.BLACK], and string values.
+             *   Example: { [colours.WHITE]: "A", [colours.BLACK]: "B" }
+             *   In this case, A will be displayed if the piece is white, or B will be displayed if the piece is black
              * 
              * @param {symbol} colour - may be colours.WHITE or colours.BLACK
              */
@@ -122,46 +194,6 @@
                 this.y = y;
             }
         });
-    </script>
-</head>
-<body>
-    <h1>Chess in Javascript</h1> 
-   
-    <chess-board id="chess-board"></chess-board>
-
-    <script type="text/javascript">
-        /** @var {HTMLChessBoardElement} chessBoard */
-        const chessBoard = document.getElementById('chess-board');
-        
-        function Pawn(colour) {
-            Piece.call(this, symbols.PAWN, colour);
-        }
-        Pawn.prototype = Object.create(Piece.prototype);
-        Pawn.prototype.constructor = Pawn;
-
-        Pawn.prototype.getMoves = function () {
-            let yDirection = 0;
-            switch(this.colour) {
-                case colours.WHITE:
-                    yDirection = 1;
-                    break;
-                case colours.BLACK:
-                    yDirection = -1;
-                    break;
-            }
-            
-            let newX = this._coordinates.x;
-            let newY = this._coordinates.y + yDirection;
-            
-            if (newY >= 8 || newY < 0) {
-                return;
-            } else {
-                return [new Coordinates(newX, newY)];
-            }
-        }
-        
-        let pawn1 = new Pawn(colours.WHITE);
-        chessBoard.getTileAt(new Coordinates(3, 1)).piece = pawn1;
     </script>
 </body>
 </html>

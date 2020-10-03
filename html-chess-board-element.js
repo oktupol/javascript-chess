@@ -13,17 +13,24 @@ class HTMLChessBoardElement extends HTMLElement {
                 justify-content: flex-end;
                 height: 510px;
                 width: 540px;
+                color: #111;
+            }
+        
+            h1 {
+                width: 480px;
+                margin-left: 40px;
+                font-family: monospace;
             }
         
             #y-descriptor, #x-descriptor {
                 display: flex;
                 justify-content: space-around;
-                font-family: monospace;
                 color: #555;
+                font-family: monospace;
             }
         
             #y-descriptor {
-                height: 480;
+                height: 480px;
                 width: 40px;
                 flex-direction: column-reverse;
                 align-items: flex-end;
@@ -45,6 +52,7 @@ class HTMLChessBoardElement extends HTMLElement {
                 flex-wrap: wrap;
                 width: 480px;
                 height: 480px;
+                user-select: none;
             }
         
             #tile-container div {
@@ -79,6 +87,9 @@ class HTMLChessBoardElement extends HTMLElement {
         
         let board = document.createElement('div');
         board.id = 'board';
+        
+        let title = document.createElement('h1');
+        title.innerText = 'Chess in Javascript';
 
         let tileContainer = document.createElement('div');
         tileContainer.id = 'tile-container';
@@ -90,6 +101,7 @@ class HTMLChessBoardElement extends HTMLElement {
         yDescriptor.id = 'y-descriptor';
 
         this.shadowRoot.appendChild(board);
+        board.appendChild(title);
         board.appendChild(yDescriptor);
         board.appendChild(tileContainer);
         board.appendChild(xDescriptor);
@@ -407,7 +419,13 @@ let Piece = function(symbol, colour) {
     Reflect.defineProperty(this, 'unicodeSymbol', {
         enumerable: false,
         get: () => {
-            return symbolsUnicode[this.symbol][this.colour];
+            if (typeof this.symbol === 'symbol') {
+                return symbolsUnicode[this.symbol][this.colour];
+            } else if (typeof this.symbol === 'string') {
+                return this.symbol;
+            } else {
+                return this.symbol[this.colour];
+            }
         }
     });
 };
