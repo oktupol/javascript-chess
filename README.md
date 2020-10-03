@@ -79,7 +79,7 @@ Let's start with an easy one. We're going to implement a pawn. For our purposes,
 
 By now, it is recommended to have your own copy of the application locally.
 
-Open up the `index.html` file. You will see is that it is relatively small. Below the `chess-board` element, there is a `script` element, in which the `board` constant is initialized.
+Open up the `index.html` file. You will see is that it is relatively small. Most of the logic is hidden behind a custom HTML element called `chess-board`. Below the `chess-board` element, there is a `script` element, in which the `board` constant is initialized.
 
 Now, open `reference.js`. It contains an explanation of all types you're going to work with. The most important one, of course, is `Piece`. Keep in mind that this file doesn't contain the actual implementation. Latter is over in `chess-board-application.js`. You may look at it as well, however, it makes heavy use of some advanced javascript features, which, for the purpose of this exercise, you don't have to understand.
 
