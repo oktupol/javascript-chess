@@ -187,3 +187,7 @@ Implement some other chess pieces, or come up with your own pieces. Some challen
 - The chess castling move, where a king moves two to the side, and a rook takes the king's original place
 - The chess en-passant move, where a pawn may capture an enemy pawn standing next to it (and not diagonally in front of it), if the enemy pawn just moved two fields forward.
 - Disallow moves that would cause the king to be in check. Use the `board.getAllPiecesOfColour` and `piece.getMoves` methods for this.
+
+Also, when implementing the Rook, the Bishop and the Queen, try to make use of the fact that the Queen combines the abilities of the Rook and the Bishop. You can even go one step further and say the King is just like the Queen, but with limited range.
+
+Have fun!
