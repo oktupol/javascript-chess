@@ -444,7 +444,7 @@
       get: () => {
         return this[pieceFields.tile]
       },
-      set: () => { throw new TypeError('Piece.tile may not be written to.'); },
+      set: () => { throw new TypeError('Piece.tile may not be written to. Use ChessTile.piece instead.'); },
     });
 
     Reflect.defineProperty(this, "board", {
@@ -474,7 +474,7 @@
       get: () => {
         return this.colour === colours.WHITE;
       },
-      set: () => { throw new TypeError('Piece.isWhite may not be written to.'); }
+      set: () => { throw new TypeError('Piece.isWhite may not be written to. Assign Piece.colour instead.'); }
     });
 
     Reflect.defineProperty(this, "isBlack", {
@@ -482,7 +482,7 @@
       get: () => {
         return this.colour === colours.BLACK;
       },
-      set: () => { throw new TypeError('Piece.isBlack may not be written to.'); }
+      set: () => { throw new TypeError('Piece.isBlack may not be written to. Assign Piece.colour instead.'); }
     });
 
     Reflect.defineProperty(this, "unicodeIdentifier", {
