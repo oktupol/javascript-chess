@@ -18,7 +18,7 @@
  * - identifier.PAWN, identifier.ROOK, identifier.KNIGHT, identifier.BISHOP, identifier.QUEEN, identifier.KING
  *   (a corresponding unicode character will be chosen then)
  * - a string (which will be displayed then)
- * - A SymbolDefinition instance. For example `new SymbolDefinition('W', 'B')`.
+ * - A IdentifierDefinition instance. For example `new IdentifierDefinition('W', 'B')`.
  *   In this case 'W' will be shown if the piece is white, or 'B' will be shown if the piece is black
  *
  * @param {symbol} colour - may be colours.WHITE or colours.BLACK
