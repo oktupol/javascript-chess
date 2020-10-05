@@ -233,6 +233,10 @@
     getAllPiecesOfColor(colour) {
       return this.getAllPiecesOfColour(colour);
     }
+    
+    get [Symbol.toStringTag]() {
+      return 'ChessBoard';
+    }
   }
   window.customElements.define("chess-board", ChessBoard);
   
@@ -335,6 +339,10 @@
         this.classList.remove("possible-move");
       }
     }
+
+    get [Symbol.toStringTag]() {
+      return `ChessTile(${this.coordinates.toString()})`;
+    }
   }
   window.customElements.define("chess-tile", ChessTile, { extends: "div" });
 
@@ -384,6 +392,10 @@
       this[colours.WHITE] = identifierForWhite;
       this[colours.BLACK] = identifierForBlack;
     }
+    
+    get [Symbol.toStringTag]() {
+      return `IdentifierDefinition(${this[colours.WHITE].toString()}, ${this[colours.BLACK].toString()})`;
+    }
   }
 
   const coordinatesFields = {
@@ -412,6 +424,10 @@
         );
       }
       return value;
+    }
+
+    get [Symbol.toStringTag]() {
+      return `Coordinates(${this.x}, ${this.y})`;
     }
   }
 
@@ -503,6 +519,12 @@
       enumerable: false,
       get: () => this.colour,
       set: (colour) => this.colour = colour
+    });
+    
+    Reflect.defineProperty(this, Symbol.toStringTag, {
+      get: () => {
+        return `Piece(${this.identifier.toString()}, ${this.colour.toString()})`;
+      }
     });
   };
 
