@@ -290,7 +290,7 @@
      */
     set piece(piece) {
       if (this[chessTileFields.piece] instanceof Piece) {
-        this[chessTileFields.piece]._tile = null;
+        this[chessTileFields.piece][pieceFields.tile] = null;
       }
 
       this[chessTileFields.piece] = piece;
@@ -298,11 +298,11 @@
       if (piece instanceof Piece) {
         this[chessTileFields.identifierHolder].textContent = piece.unicodeIdentifier;
 
-        if (piece._tile instanceof ChessTile) {
-          piece._tile.piece = null;
+        if (piece.tile instanceof ChessTile) {
+          piece.tile.piece = null;
         }
 
-        piece._tile = this;
+        piece[pieceFields.tile] = this;
 
         this.classList.add("has-piece");
       } else {
@@ -421,6 +421,10 @@
       this.coordinates = coordinates;
     }
   }
+  
+  const pieceFields = {
+    tile: Symbol('tile'),
+  };
 
   /**
    * @param {symbol} identifier
@@ -429,49 +433,56 @@
   let Piece = function (identifier, colour) {
     this.identifier = identifier;
     this.colour = colour;
+    this[pieceFields.tile] = null
 
-    Reflect.defineProperty(this, "_tile", {
-      enumerable: false,
-      writable: true,
-      value: null,
+    Reflect.defineProperty(this, "tile", {
+      enumerable: true,
+      get: () => {
+        return this[pieceFields.tile]
+      },
+      set: () => { throw new TypeError('Piece.tile may not be written to.'); },
     });
 
-    Reflect.defineProperty(this, "_board", {
-      enumerable: false,
+    Reflect.defineProperty(this, "board", {
+      enumerable: true,
       get: () => {
-        if (this._tile instanceof ChessTile) {
-          return this._tile.board;
+        if (this[pieceFields.tile] instanceof ChessTile) {
+          return this[pieceFields.tile].board;
         }
         return null;
       },
+      set: () => { throw new TypeError('Piece.board may not be written to.'); }
     });
 
-    Reflect.defineProperty(this, "_coordinates", {
-      enumerable: false,
+    Reflect.defineProperty(this, "coordinates", {
+      enumerable: true,
       get: () => {
-        if (this._tile instanceof ChessTile) {
-          return this._tile.coordinates;
+        if (this[pieceFields.tile] instanceof ChessTile) {
+          return this[pieceFields.tile].coordinates;
         }
         return null;
       },
+      set: () => { throw new TypeError('Piece.coordinates may not be written to.'); }
     });
 
-    Reflect.defineProperty(this, "_isWhite", {
-      enumerable: false,
+    Reflect.defineProperty(this, "isWhite", {
+      enumerable: true,
       get: () => {
         return this.colour === colours.WHITE;
       },
+      set: () => { throw new TypeError('Piece.isWhite may not be written to.'); }
     });
 
-    Reflect.defineProperty(this, "_isBlack", {
-      enumerable: false,
+    Reflect.defineProperty(this, "isBlack", {
+      enumerable: true,
       get: () => {
         return this.colour === colours.BLACK;
       },
+      set: () => { throw new TypeError('Piece.isBlack may not be written to.'); }
     });
 
     Reflect.defineProperty(this, "unicodeIdentifier", {
-      enumerable: false,
+      enumerable: true,
       get: () => {
         if (typeof this.identifier === "symbol") {
           return identifiersUnicode[this.identifier][this.colour];
@@ -481,6 +492,7 @@
           return this.identifier[this.colour];
         }
       },
+      set: () => { throw new TypeError('Piece.unicodeIdentifier may not be written to.'); }
     });
   };
 

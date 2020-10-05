@@ -134,13 +134,13 @@ If you click on the pawn now, you will see some green tiles
 These tiles correspond to the coordinates returned by the `getMoves` function. Click on a green tile now, and see how the pawn jumps over to its new location.
 
 Of course, a pawn that jumps between two locations is neither useful, nor accurate regarding the rules of chess.
-Now we have to complete the logic. First, we're going to determine the direction in which the pawn may move. Let's recap: white pawns move upwards, black pawns move downwards. In terms of coordinates, white pawns move towards positive `y`s, black pawns towards negative `y`s. I'm going to capture this property with a variable called `yDirection`. I'm also making use of the fields `_coordinates`, `_isWhite` and `_isBlack` provided by `Piece`. More info on that can be found in `reference.js`.
+Now we have to complete the logic. First, we're going to determine the direction in which the pawn may move. Let's recap: white pawns move upwards, black pawns move downwards. In terms of coordinates, white pawns move towards positive `y`s, black pawns towards negative `y`s. I'm going to capture this property with a variable called `yDirection`. I'm also making use of the fields `coordinates`, `isWhite` and `isBlack` provided by `Piece`. More info on that can be found in `reference.js`.
 
 ```
 Pawn.prototype.getMoves = function() {
     let yDirection;
 
-    if (this._isWhite) {
+    if (this.isWhite) {
         yDirection = 1; // towards positive y
     } else {
         yDirection = -1; // towards negative y
@@ -151,7 +151,7 @@ Pawn.prototype.getMoves = function() {
 Now we have to test whether the pawn would hit the wall if he goes in this direction. For that, we first need to calculate its new `y` value, then check whether it's in the range between 0 and 7. If not, we will cancel the execution of this method and return nothing.
 
 ```
-const newY = this._coordinates.y + yDirection;
+const newY = this.coordinates.y + yDirection;
 
 if (newY < 0 || newY > 7) {
     // Hitting the wall
@@ -163,7 +163,7 @@ At last, we need to return an array with the coordinates the pawn may travel to.
 
 ```
 return [
-    new Coordinates(this._coordinates.x, newY)
+    new Coordinates(this.coordinates.x, newY)
 ];
 ```
 

@@ -33,20 +33,20 @@ let Piece = function (identifier, colour) {
    * in your subtypes.
    */
 
-  /** @var {ChessTile} _tile - the current tile the piece sits on. */
-  this._tile;
+  /** @var {ChessTile} tile - the current tile the piece sits on. */
+  this.tile;
 
-  /** @var {ChessBoard} _board - the current chess board the piece sits on. */
-  this._board;
+  /** @var {ChessBoard} board - the current chess board the piece sits on. */
+  this.board;
 
-  /** @var {Coordinates} _coordinates - the current coordinates the piece sits on */
-  this._coordinates;
+  /** @var {Coordinates} coordinates - the current coordinates the piece sits on */
+  this.coordinates;
 
-  /** @var {boolean} _isWhite - true, if the piece is white, otherwise false */
-  this._isWhite;
+  /** @var {boolean} isWhite - true, if the piece is white, otherwise false */
+  this.isWhite;
 
-  /** @var {boolean} _isBlack - true, if the piece is black, otherwise false */
-  this._isBlack;
+  /** @var {boolean} isBlack - true, if the piece is black, otherwise false */
+  this.isBlack;
 };
 
 /**

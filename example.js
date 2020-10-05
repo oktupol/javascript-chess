@@ -15,8 +15,8 @@ Pawn.prototype.getMoves = function () {
             break;
     }
     
-    let newX = this._coordinates.x;
-    let newY = this._coordinates.y + yDirection;
+    let newX = this.coordinates.x;
+    let newY = this.coordinates.y + yDirection;
     
     if (newY >= 8 || newY < 0) {
         return;
