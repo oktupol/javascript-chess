@@ -229,6 +229,10 @@
     getAllPiecesOfColour(colour) {
       return this.getAllPieces().filter((piece) => piece.colour === colour);
     }
+    
+    getAllPiecesOfColor(colour) {
+      return this.getAllPiecesOfColour(colour);
+    }
   }
   window.customElements.define("chess-board", ChessBoard);
   
