@@ -1,5 +1,5 @@
 function Pawn(colour) {
-    Piece.call(this, symbols.PAWN, colour);
+    Piece.call(this, identifiers.PAWN, colour);
 }
 Pawn.prototype = Object.create(Piece.prototype);
 Pawn.prototype.constructor = Pawn;

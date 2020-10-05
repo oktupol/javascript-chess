@@ -14,17 +14,17 @@
 /**
  * Specification of the "Piece" prototype.
  *
- * @param {symbol} symbol - may be one of following:
- * - symbols.PAWN, symbols.ROOK, symbols.KNIGHT, symbols.BISHOP, symbols.QUEEN, symbols.KING
- *   (a corresponding unicode symbol will be chosen then)
+ * @param {symbol} identifier - may be one of following:
+ * - identifier.PAWN, identifier.ROOK, identifier.KNIGHT, identifier.BISHOP, identifier.QUEEN, identifier.KING
+ *   (a corresponding unicode character will be chosen then)
  * - a string (which will be displayed then)
  * - A SymbolDefinition instance. For example `new SymbolDefinition('W', 'B')`.
  *   In this case 'W' will be shown if the piece is white, or 'B' will be shown if the piece is black
  *
  * @param {symbol} colour - may be colours.WHITE or colours.BLACK
  */
-let Piece = function (symbol, colour) {
-  this.symbol = symbol;
+let Piece = function (identifier, colour) {
+  this.identifier = identifier;
   this.colour = colour;
 
   /*

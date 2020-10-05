@@ -236,7 +236,7 @@
     coordinates: Symbol('coordinates'),
     piece: Symbol('piece'),
     possibleMove: Symbol('possibleMove'),
-    symbolHolder: Symbol('symbolHolder'),
+    identifierHolder: Symbol('identifierHolder'),
   };
 
   class ChessTile extends HTMLDivElement {
@@ -250,8 +250,8 @@
       this[chessTileFields.piece] = null;
       this[chessTileFields.possibleMove] = null;
 
-      this[chessTileFields.symbolHolder] = document.createElement("span");
-      this.appendChild(this[chessTileFields.symbolHolder]);
+      this[chessTileFields.identifierHolder] = document.createElement("span");
+      this.appendChild(this[chessTileFields.identifierHolder]);
     }
 
     /**
@@ -296,7 +296,7 @@
       this[chessTileFields.piece] = piece;
 
       if (piece instanceof Piece) {
-        this[chessTileFields.symbolHolder].textContent = piece.unicodeSymbol;
+        this[chessTileFields.identifierHolder].textContent = piece.unicodeIdentifier;
 
         if (piece._tile instanceof ChessTile) {
           piece._tile.piece = null;
@@ -306,7 +306,7 @@
 
         this.classList.add("has-piece");
       } else {
-        this[chessTileFields.symbolHolder].textContent = "";
+        this[chessTileFields.identifierHolder].textContent = "";
 
         this.classList.remove("has-piece");
       }
@@ -339,7 +339,7 @@
     BLACK: Symbol("black"),
   };
 
-  const symbols = {
+  const identifiers = {
     ROOK: Symbol("rook"),
     KNIGHT: Symbol("knight"),
     BISHOP: Symbol("bishop"),
@@ -348,37 +348,37 @@
     PAWN: Symbol("pawn"),
   };
 
-  const symbolsUnicode = {
-    [symbols.ROOK]: {
+  const identifiersUnicode = {
+    [identifiers.ROOK]: {
       [colours.WHITE]: "♖",
       [colours.BLACK]: "♜",
     },
-    [symbols.KNIGHT]: {
+    [identifiers.KNIGHT]: {
       [colours.WHITE]: "♘",
       [colours.BLACK]: "♞",
     },
-    [symbols.BISHOP]: {
+    [identifiers.BISHOP]: {
       [colours.WHITE]: "♗",
       [colours.BLACK]: "♝",
     },
-    [symbols.QUEEN]: {
+    [identifiers.QUEEN]: {
       [colours.WHITE]: "♕",
       [colours.BLACK]: "♛",
     },
-    [symbols.KING]: {
+    [identifiers.KING]: {
       [colours.WHITE]: "♔",
       [colours.BLACK]: "♚",
     },
-    [symbols.PAWN]: {
+    [identifiers.PAWN]: {
       [colours.WHITE]: "♙",
       [colours.BLACK]: "♟︎",
     },
   };
 
-  class SymbolDefinition {
-    constructor(symbolForWhite, symbolForBlack) {
-      this[colours.WHITE] = symbolForWhite;
-      this[colours.BLACK] = symbolForBlack;
+  class IdentifierDefinition {
+    constructor(identifierForWhite, identifierForBlack) {
+      this[colours.WHITE] = identifierForWhite;
+      this[colours.BLACK] = identifierForBlack;
     }
   }
 
@@ -423,11 +423,11 @@
   }
 
   /**
-   * @param {symbol} symbol
+   * @param {symbol} identifier
    * @param {symbol} colour
    */
-  let Piece = function (symbol, colour) {
-    this.symbol = symbol;
+  let Piece = function (identifier, colour) {
+    this.identifier = identifier;
     this.colour = colour;
 
     Reflect.defineProperty(this, "_tile", {
@@ -470,15 +470,15 @@
       },
     });
 
-    Reflect.defineProperty(this, "unicodeSymbol", {
+    Reflect.defineProperty(this, "unicodeIdentifier", {
       enumerable: false,
       get: () => {
-        if (typeof this.symbol === "symbol") {
-          return symbolsUnicode[this.symbol][this.colour];
-        } else if (typeof this.symbol === "string") {
-          return this.symbol;
+        if (typeof this.identifier === "symbol") {
+          return identifiersUnicode[this.identifier][this.colour];
+        } else if (typeof this.identifier === "string") {
+          return this.identifier;
         } else {
-          return this.symbol[this.colour];
+          return this.identifier[this.colour];
         }
       },
     });
@@ -495,8 +495,8 @@
   
   window.Coordinates = Coordinates;
   window.Piece = Piece;
-  window.SymbolDefinition = SymbolDefinition;
+  window.IdentifierDefinition = IdentifierDefinition;
   
-  window.symbols = symbols;
+  window.identifiers = identifiers;
   window.colours = colours;
 })(window);

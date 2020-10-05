@@ -21,21 +21,21 @@ It will return you a `div` element. Hover above the return value to confirm that
 Now let's place a piece on the board. The application comes with the `Piece` prototype, a barebone type that represents the basic features of a chess pice. Let's create one.
 
 ```
-piece = new Piece(symbols.PAWN, colours.BLACK);
+piece = new Piece(identifiers.PAWN, colours.BLACK);
 ```
 
 Now, what happened here? Using the `Piece` constructor, we created an object with the `Piece` prototype. Right now this piece is not yet on the board, therefore we can't see it. Before we place it there, let me explain how the `Piece` constructor works.
 
-The `Piece` constructor takes two arguments. A symbol, which will later be displayed on the chessboard, and a colour. The colour is either `colours.BLACK` or `colours.WHITE` - two values that come with the application. The symbol may be one of three things:
+The `Piece` constructor takes two arguments. An identifier, which will later be displayed on the chessboard, and a colour. The colour is either `colours.BLACK` or `colours.WHITE` - two values that come with the application. The identifier may be one of three things:
 
-- A pre-defined chess symbol. This application comes with `symbols.PAWN`, `symbols.ROOK`, `symbols.KNIGHT`, `symbols.BISHOP`, `symbols.QUEEN`, `symbols.KING`. These are going to be automatically translated into Unicode chess-piece symbols.
-- A `SymbolDefinition` object, which can be created with `new SymbolDefinition(symbolForWhite, symbolForBlack)`. The two arguments are strings, of which the one corresponding to the piece's colour is used for display.
+- A pre-defined chess piece. This application comes with `identifiers.PAWN`, `identifiers.ROOK`, `identifiers.KNIGHT`, `identifiers.BISHOP`, `identifiers.QUEEN`, `identifiers.KING`. These are going to be automatically translated into Unicode chess-piece characters.
+- A `IdentifierDefinition` object, which can be created with `new IdentifierDefinition(identifierForWhite, identifierForBlack)`. The two arguments are strings, of which the one corresponding to the piece's colour is used for display.
 - A string. In this case, the string will be used for display.
 
 Let's create a few more pieces:
 ```
-piece2 = new Piece(symbols.KING, colours.BLACK);
-piece3 = new Piece(new SymbolDefinition('W', 'B'), colours.WHITE);
+piece2 = new Piece(identifier.KING, colours.BLACK);
+piece3 = new Piece(new IdentifierDefinition('W', 'B'), colours.WHITE);
 piece4 = new Piece('S', colours.WHITE);
 ```
 
@@ -56,7 +56,7 @@ tile4.piece = piece4;
 
 ![Few pieces](readme-images/002.png)
 
-As you see, `piece3` displays a "W" because it's white. You might ask why passing a SymbolDefinition with two symbols, one for black, and one for white, may be necessary. After all, the colour of the piece is defined in the same statement. The basic idea is that later, we're going to create our own chesspiece types, inheriting from `Piece`. And those types will have pre-defined symbols for both colours, so that the constructor only needs the colour.
+As you see, `piece3` displays a "W" because it's white. You might ask why passing a IdentifierDefinition with two identifier, one for black, and one for white, may be necessary. After all, the colour of the piece is defined in the same statement. The basic idea is that later, we're going to create our own chesspiece types, inheriting from `Piece`. And those types will have pre-defined identifier for both colours, so that the constructor only needs the colour.
 
 Go ahead, move them around to different tiles!
 
@@ -86,8 +86,8 @@ Now, open `reference.js`. It contains an explanation of all types you're going t
 Let's look at the `Piece` constructor:
 
 ```
-let Piece = function (symbol, colour) {
-  this.symbol = symbol;
+let Piece = function (identifier, colour) {
+  this.identifier = identifier;
   this.colour = colour;
   
   // some "magic" fields
@@ -98,13 +98,13 @@ Pretty straightforward, isn't it? Now we create our Pawn constructor. Go back to
 
 ```
 let Pawn = function (colour) {
-    Piece.call(this, symbols.PAWN, colour);
+    Piece.call(this, identifiers.PAWN, colour);
 }
 Pawn.prototype = Object.create(Piece.prototype);
 Pawn.prototype.constructor = Pawn;
 ```
 
-Now you see why it's useful to be able to assign an object with different symbols for white and black. When we instantiate a `Pawn`, we no longer have to tell it how it looks like:
+Now you see why it's useful to be able to assign an object with different identifiers for white and black. When we instantiate a `Pawn`, we no longer have to tell it how it looks like:
 
 ```
 let myPawn = new Pawn(colours.WHITE);
