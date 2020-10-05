@@ -496,7 +496,7 @@
           return this.identifier[this.colour];
         }
       },
-      set: () => { throw new TypeError('Piece.unicodeIdentifier may not be written to.'); }
+      set: () => { throw new TypeError('Piece.unicodeIdentifier may not be written to. Assign Piece.identifier instead.'); }
     });
     
     Reflect.defineProperty(this, "color", {
