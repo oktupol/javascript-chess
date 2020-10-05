@@ -51,6 +51,9 @@ let Piece = function (identifier, colour) {
 
 /**
  * If you click on your piece, this method is called to determine where your piece can move to.
+ * These possible moves are shown in the chessboard with green tiles. Clicking on a green tile
+ * will perform the move.
+ * 
  * You have to override (shadow) this method in your subtypes for it to work.
  *
  * @returns {Coordinates[]} - An array of coordinates the piece is supposed to be able to move to.
