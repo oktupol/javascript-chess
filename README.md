@@ -178,6 +178,7 @@ Complete the Pawn by implementing its diagonal capture move and its opening two-
 
 - A piece type that can only jump into the corners of the board, regardless of where it is
 - A piece that can only move, when there is another piece adjacent to it
+- A piece that changes colours whenever it moves
 - A piece that can only move if it jumps over an adjacent piece
 - A piece that can only swap places with one other "friend" piece
 - A piece that can only move towards the piece on the board, which is the farthest away from itself.

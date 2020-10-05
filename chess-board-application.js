@@ -494,6 +494,12 @@
       },
       set: () => { throw new TypeError('Piece.unicodeIdentifier may not be written to.'); }
     });
+    
+    Reflect.defineProperty(this, "color", {
+      enumerable: false,
+      get: () => this.colour,
+      set: (colour) => this.colour = colour
+    });
   };
 
   /**
@@ -511,4 +517,5 @@
   
   window.identifiers = identifiers;
   window.colours = colours;
+  window.colors = colours;
 })(window);
