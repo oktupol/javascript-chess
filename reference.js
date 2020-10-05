@@ -14,7 +14,7 @@
 /**
  * Specification of the "Piece" prototype.
  *
- * @param {symbol} identifier - may be one of following:
+ * @param {symbol | IdentiferDefinition | string} identifier - may be one of following:
  * - identifier.PAWN, identifier.ROOK, identifier.KNIGHT, identifier.BISHOP, identifier.QUEEN, identifier.KING
  *   (a corresponding unicode character will be chosen then)
  * - a string (which will be displayed then)
