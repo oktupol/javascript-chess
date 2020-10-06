@@ -297,13 +297,22 @@
      * @param {Piece} piece
      */
     set piece(piece) {
+      let newPieceFrom = null;
+
       if (this[chessTileFields.piece] instanceof Piece) {
         this[chessTileFields.piece][pieceFields.tile] = null;
       }
+      
+      if (piece instanceof Piece) {
+        newPieceFrom = piece.coordinates;
+      }
 
       this[chessTileFields.piece] = piece;
+      
 
       if (piece instanceof Piece) {
+        const newPieceTo = this.coordinates;
+
         this[chessTileFields.identifierHolder].textContent = piece.unicodeIdentifier;
 
         if (piece.tile instanceof ChessTile) {
@@ -311,6 +320,8 @@
         }
 
         piece[pieceFields.tile] = this;
+        
+        piece.onMove(new PieceMoveEvent(newPieceFrom, newPieceTo));
 
         this.classList.add("has-piece");
       } else {
@@ -442,6 +453,17 @@
     }
   }
   
+  class PieceMoveEvent {
+    /**
+     * @param {Coordinates} fromCoordinates
+     * @param {Coordinates} toCoordinates
+     */
+    constructor (fromCoordinates, toCoordinates) {
+      this.fromCoordinates = fromCoordinates,
+      this.toCoordinates = toCoordinates;
+    }
+  }
+  
   const pieceFields = {
     tile: Symbol('tile'),
   };
@@ -536,6 +558,13 @@
       'The abstract "Piece" type doesn\'t support getMoves. You need to create your own type that inherits from "Piece".'
     );
   };
+  
+  /**
+   * @param {PieceMoveEvent} moveEvent 
+   */
+  Piece.prototype.onMove = function(moveEvent) {
+    // does nothing
+  }
   
   window.Coordinates = Coordinates;
   window.Piece = Piece;

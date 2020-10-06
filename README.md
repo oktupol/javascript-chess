@@ -182,6 +182,7 @@ Complete the Pawn by implementing its diagonal capture move and its opening two-
 - A piece that can only move if it jumps over an adjacent piece
 - A piece that can only swap places with one other "friend" piece
 - A piece that can only move towards the piece on the board, which is the farthest away from itself.
+- The pawn's starting move, where it moves two tiles. Use the `Piece.prototype.onMove` method for this.
 - The chess castling move, where a king moves two to the side, and a rook takes the king's original place
 - The chess en-passant move, where a pawn may capture an enemy pawn standing next to it (and not diagonally in front of it), if the enemy pawn just moved two fields forward.
 - Disallow moves that would cause the king to be in check. Use the `board.getAllPiecesOfColour` and `piece.getMoves` methods for this.

@@ -62,6 +62,15 @@ Piece.prototype.getMoves = function () {
   // In the "Piece" type, this method isn't implemented and will throw an error.
 };
 
+/**
+ * This method is called on every move of a piece. It is not required for it to be able to move. By default, it does nothing.
+ * You may implement this to set a state after a piece's move.
+ * @param {PieceMoveEvent} moveEvent 
+ */
+Piece.prototype.onMove = function(moveEvent) {
+  // Does nothing
+}
+
 
 // **********************
 // **** COORDINATES *****
@@ -144,3 +153,13 @@ let ChessTile = function () {
   /** @var {Coordinates} coordinates - The coordinates of the tile. */
   this.coordinates;
 };
+
+/**
+ * Specification of a move event.
+ * @param {Coordinates} fromCoordinates 
+ * @param {Coordinates} toCoordinates 
+ */
+let PieceMoveEvent = function (fromCoordinates, toCoordinates) {
+  this.fromCoordinates = fromCoordinates;
+  this.toCoordinates = toCoordinates;
+}
