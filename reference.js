@@ -156,10 +156,10 @@ let ChessTile = function () {
 
 /**
  * Specification of a move event.
- * @param {Coordinates} fromCoordinates 
- * @param {Coordinates} toCoordinates 
+ * @param {Coordinates} from 
+ * @param {Coordinates} to 
  */
-let PieceMoveEvent = function (fromCoordinates, toCoordinates) {
-  this.fromCoordinates = fromCoordinates;
-  this.toCoordinates = toCoordinates;
+let PieceMoveEvent = function (from, to) {
+  this.from = from;
+  this.to = to;
 }

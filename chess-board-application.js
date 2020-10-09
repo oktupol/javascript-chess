@@ -455,12 +455,12 @@
   
   class PieceMoveEvent {
     /**
-     * @param {Coordinates} fromCoordinates
-     * @param {Coordinates} toCoordinates
+     * @param {Coordinates} from
+     * @param {Coordinates} to
      */
-    constructor (fromCoordinates, toCoordinates) {
-      this.fromCoordinates = fromCoordinates,
-      this.toCoordinates = toCoordinates;
+    constructor (from, to) {
+      this.from = from,
+      this.to = to;
     }
   }
   
