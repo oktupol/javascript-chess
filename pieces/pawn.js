@@ -7,7 +7,6 @@ Pawn.prototype = Object.create(Piece.prototype);
 Pawn.prototype.constructor = Pawn;
 
 Pawn.prototype.getMoves = function() {
-    console.log('getMoves');
     const result = [];
     
     let direction;
