@@ -26,27 +26,6 @@
 let Piece = function (identifier, colour) {
   this.identifier = identifier;
   this.colour = colour;
-
-  /*
-   * The "Piece" type comes with some helper fields that are automatically set
-   * and not supposed to be written to. You can use those fields to implement "getMoves"
-   * in your subtypes.
-   */
-
-  /** @var {ChessTile} tile - the current tile the piece sits on. */
-  this.tile;
-
-  /** @var {ChessBoard} board - the current chess board the piece sits on. */
-  this.board;
-
-  /** @var {Coordinates} coordinates - the current coordinates the piece sits on */
-  this.coordinates;
-
-  /** @var {boolean} isWhite - true, if the piece is white, otherwise false */
-  this.isWhite;
-
-  /** @var {boolean} isBlack - true, if the piece is black, otherwise false */
-  this.isBlack;
 };
 
 /**
@@ -70,6 +49,27 @@ Piece.prototype.getMoves = function () {
 Piece.prototype.onMove = function(moveEvent) {
   // Does nothing
 }
+
+/*
+ * The "Piece" type comes with some helper fields that are automatically set
+ * and not supposed to be written to. You can use those fields to implement "getMoves"
+ * in your subtypes.
+ */
+
+/** @var {ChessTile} tile - the current tile the piece sits on. */
+Piece.prototype.tile;
+
+/** @var {ChessBoard} board - the current chess board the piece sits on. */
+Piece.prototype.board;
+
+/** @var {Coordinates} coordinates - the current coordinates the piece sits on */
+Piece.prototype.coordinates;
+
+/** @var {boolean} isWhite - true, if the piece is white, otherwise false */
+Piece.prototype.isWhite;
+
+/** @var {boolean} isBlack - true, if the piece is black, otherwise false */
+Piece.prototype.isBlack;
 
 
 // **********************

@@ -476,78 +476,6 @@
     this.identifier = identifier;
     this.colour = colour;
     this[pieceFields.tile] = null
-
-    Reflect.defineProperty(this, "tile", {
-      enumerable: true,
-      get: () => {
-        return this[pieceFields.tile]
-      },
-      set: () => { throw new TypeError('Piece.tile may not be written to. Use ChessTile.piece instead.'); },
-    });
-
-    Reflect.defineProperty(this, "board", {
-      enumerable: true,
-      get: () => {
-        if (this[pieceFields.tile] instanceof ChessTile) {
-          return this[pieceFields.tile].board;
-        }
-        return null;
-      },
-      set: () => { throw new TypeError('Piece.board may not be written to.'); }
-    });
-
-    Reflect.defineProperty(this, "coordinates", {
-      enumerable: true,
-      get: () => {
-        if (this[pieceFields.tile] instanceof ChessTile) {
-          return this[pieceFields.tile].coordinates;
-        }
-        return null;
-      },
-      set: () => { throw new TypeError('Piece.coordinates may not be written to.'); }
-    });
-
-    Reflect.defineProperty(this, "isWhite", {
-      enumerable: true,
-      get: () => {
-        return this.colour === colours.WHITE;
-      },
-      set: () => { throw new TypeError('Piece.isWhite may not be written to. Assign Piece.colour instead.'); }
-    });
-
-    Reflect.defineProperty(this, "isBlack", {
-      enumerable: true,
-      get: () => {
-        return this.colour === colours.BLACK;
-      },
-      set: () => { throw new TypeError('Piece.isBlack may not be written to. Assign Piece.colour instead.'); }
-    });
-
-    Reflect.defineProperty(this, "unicodeIdentifier", {
-      enumerable: true,
-      get: () => {
-        if (typeof this.identifier === "symbol") {
-          return identifiersUnicode[this.identifier][this.colour];
-        } else if (typeof this.identifier === "string") {
-          return this.identifier;
-        } else {
-          return this.identifier[this.colour];
-        }
-      },
-      set: () => { throw new TypeError('Piece.unicodeIdentifier may not be written to. Assign Piece.identifier instead.'); }
-    });
-    
-    Reflect.defineProperty(this, "color", {
-      enumerable: false,
-      get: () => this.colour,
-      set: (colour) => this.colour = colour
-    });
-    
-    Reflect.defineProperty(this, Symbol.toStringTag, {
-      get: () => {
-        return `Piece(${this.identifier.toString()}, ${this.colour.toString()})`;
-      }
-    });
   };
 
   /**
@@ -565,6 +493,78 @@
   Piece.prototype.onMove = function(moveEvent) {
     // does nothing
   }
+
+  Reflect.defineProperty(Piece.prototype, "tile", {
+    enumerable: true,
+    get: function () {
+      return this[pieceFields.tile]
+    },
+    set: function () { throw new TypeError('Piece.tile may not be written to. Use ChessTile.piece instead.'); },
+  });
+
+  Reflect.defineProperty(Piece.prototype, "board", {
+    enumerable: true,
+    get: function () {
+      if (this[pieceFields.tile] instanceof ChessTile) {
+        return this[pieceFields.tile].board;
+      }
+      return null;
+    },
+    set: function () { throw new TypeError('Piece.board may not be written to.'); }
+  });
+
+  Reflect.defineProperty(Piece.prototype, "coordinates", {
+    enumerable: true,
+    get: function () {
+      if (this[pieceFields.tile] instanceof ChessTile) {
+        return this[pieceFields.tile].coordinates;
+      }
+      return null;
+    },
+    set: function () { throw new TypeError('Piece.coordinates may not be written to.'); }
+  });
+
+  Reflect.defineProperty(Piece.prototype, "isWhite", {
+    enumerable: true,
+    get: function () {
+      return this.colour === colours.WHITE;
+    },
+    set: function () { throw new TypeError('Piece.isWhite may not be written to. Assign Piece.colour instead.'); }
+  });
+
+  Reflect.defineProperty(Piece.prototype, "isBlack", {
+    enumerable: true,
+    get: function () {
+      return this.colour === colours.BLACK;
+    },
+    set: function () { throw new TypeError('Piece.isBlack may not be written to. Assign Piece.colour instead.'); }
+  });
+
+  Reflect.defineProperty(Piece.prototype, "unicodeIdentifier", {
+    enumerable: true,
+    get: function () {
+      if (typeof this.identifier === "symbol") {
+        return identifiersUnicode[this.identifier][this.colour];
+      } else if (typeof this.identifier === "string") {
+        return this.identifier;
+      } else {
+        return this.identifier[this.colour];
+      }
+    },
+    set: function () { throw new TypeError('Piece.unicodeIdentifier may not be written to. Assign Piece.identifier instead.'); }
+  });
+
+  Reflect.defineProperty(Piece.prototype, "color", {
+    enumerable: false,
+    get: function () { return this.colour; },
+    set: function (colour) { this.colour = colour; }
+  });
+
+  Reflect.defineProperty(Piece.prototype, Symbol.toStringTag, {
+    get: function () {
+      return `Piece(${this.identifier.toString()}, ${this.colour.toString()})`;
+    }
+  });
   
   window.Coordinates = Coordinates;
   window.Piece = Piece;
