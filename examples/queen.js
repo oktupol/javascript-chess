@@ -1,13 +1,6 @@
 const Queen = ((document) => {
     const board = document.querySelector('chess-board');
 
-    function oppositeColour(colour) {
-        switch (colour) {
-            case colours.WHITE: return colours.BLACK;
-            case colours.BLACK: return colours.WHITE;
-        }
-    }
-
     function Queen(colour) {
         Piece.call(this, identifiers.QUEEN, colour);
     };
@@ -66,7 +59,7 @@ const Queen = ((document) => {
                 const targetTile = board.getTileAt(targetCoordinates);
 
                 if (targetTile.piece) {
-                    if (targetTile.piece.colour === oppositeColour(this.colour)) {
+                    if (targetTile.piece.colour !== this.colour) {
                         result.push(targetCoordinates);
                     }
 

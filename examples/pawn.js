@@ -1,13 +1,6 @@
 const Pawn = ((document) => {
     const board = document.querySelector('chess-board');
 
-    function oppositeColour(colour) {
-        switch (colour) {
-            case colours.WHITE: return colours.BLACK;
-            case colours.BLACK: return colours.WHITE;
-        }
-    }
-
     function Pawn(colour) {
         Piece.call(this, identifiers.PAWN, colour);
         this.hasMoved = false;
@@ -66,7 +59,7 @@ const Pawn = ((document) => {
             const targetCoordinates = new Coordinates(newX, newY);
             const targetTile = board.getTileAt(targetCoordinates);
 
-            if (targetTile.piece && targetTile.piece.colour === oppositeColour(this.colour)) {
+            if (targetTile.piece && targetTile.piece.colour !== this.colour) {
                 result.push(targetCoordinates);
                 continue;
             }
@@ -79,7 +72,7 @@ const Pawn = ((document) => {
             const enPassantTile = board.getTileAt(new Coordinates(newX, this.coordinates.y));
 
             if (enPassantTile.piece
-                && enPassantTile.piece.colour === oppositeColour(this.colour)
+                && enPassantTile.piece.colour !== this.colour
                 && enPassantTile.piece instanceof Pawn
                 && enPassantTile.piece.justMovedDouble) {
                 result.push(targetCoordinates);
@@ -104,7 +97,7 @@ const Pawn = ((document) => {
                 );
                 
                 if (enPassantTile.piece
-                    && enPassantTile.piece.colour === oppositeColour(this.colour)
+                    && enPassantTile.piece.colour !== this.colour
                     && enPassantTile.piece instanceof Pawn
                     && enPassantTile.piece.justMovedDouble) {
                     enPassantTile.piece = null;
