@@ -1,4 +1,11 @@
-((window) => {
+const {
+  Coordinates,
+  Piece,
+  IdentifierDefinition,
+  identifiers,
+  colours,
+  colors
+} = ((window) => {
   const chessBoardFields = {
     tiles: Symbol('tiles')
   };
@@ -229,17 +236,17 @@
     getAllPiecesOfColour(colour) {
       return this.getAllPieces().filter((piece) => piece.colour === colour);
     }
-    
+
     getAllPiecesOfColor(colour) {
       return this.getAllPiecesOfColour(colour);
     }
-    
+
     get [Symbol.toStringTag]() {
       return 'ChessBoard';
     }
   }
   window.customElements.define("chess-board", ChessBoard);
-  
+
   const chessTileFields = {
     coordinates: Symbol('coordinates'),
     piece: Symbol('piece'),
@@ -302,13 +309,13 @@
       if (this[chessTileFields.piece] instanceof Piece) {
         this[chessTileFields.piece][pieceFields.tile] = null;
       }
-      
+
       if (piece instanceof Piece) {
         newPieceFrom = piece.coordinates;
       }
 
       this[chessTileFields.piece] = piece;
-      
+
 
       if (piece instanceof Piece) {
         const newPieceTo = this.coordinates;
@@ -320,7 +327,7 @@
         }
 
         piece[pieceFields.tile] = this;
-        
+
         piece.onMove(new PieceMoveEvent(newPieceFrom, newPieceTo));
 
         this.classList.add("has-piece");
@@ -403,7 +410,7 @@
       this[colours.WHITE] = identifierForWhite;
       this[colours.BLACK] = identifierForBlack;
     }
-    
+
     get [Symbol.toStringTag]() {
       return `IdentifierDefinition(${this[colours.WHITE].toString()}, ${this[colours.BLACK].toString()})`;
     }
@@ -452,18 +459,18 @@
       this.coordinates = coordinates;
     }
   }
-  
+
   class PieceMoveEvent {
     /**
      * @param {Coordinates} from
      * @param {Coordinates} to
      */
-    constructor (from, to) {
+    constructor(from, to) {
       this.from = from,
-      this.to = to;
+        this.to = to;
     }
   }
-  
+
   const pieceFields = {
     tile: Symbol('tile'),
   };
@@ -486,11 +493,11 @@
       'The abstract "Piece" type doesn\'t support getMoves. You need to create your own type that inherits from "Piece".'
     );
   };
-  
+
   /**
    * @param {PieceMoveEvent} moveEvent 
    */
-  Piece.prototype.onMove = function(moveEvent) {
+  Piece.prototype.onMove = function (moveEvent) {
     // does nothing
   }
 
@@ -565,12 +572,13 @@
       return `Piece(${this.identifier.toString()}, ${this.colour.toString()})`;
     }
   });
-  
-  window.Coordinates = Coordinates;
-  window.Piece = Piece;
-  window.IdentifierDefinition = IdentifierDefinition;
-  
-  window.identifiers = identifiers;
-  window.colours = colours;
-  window.colors = colours;
+
+  return {
+    Coordinates,
+    Piece,
+    IdentifierDefinition,
+    identifiers,
+    colours,
+    colors: colours
+  }
 })(window);
