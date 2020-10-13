@@ -16,7 +16,7 @@ const {
 
       this.attachShadow({ mode: "open" });
 
-      let styles = document.createElement("style");
+      const styles = document.createElement("style");
       this.shadowRoot.appendChild(styles);
       styles.textContent = `
             #board {
@@ -101,23 +101,23 @@ const {
             }
         `;
 
-      let board = document.createElement("div");
+      const board = document.createElement("div");
       board.id = "board";
 
-      let title = document.createElement("h1");
+      const title = document.createElement("h1");
       title.innerText = "Chess in Javascript";
 
-      let information = document.createElement("div");
+      const information = document.createElement("div");
       information.id = "information";
       information.innerHTML = `<a href="https://github.com/oktupol/javascript-chess">View this project on Github</a>`;
 
-      let tileContainer = document.createElement("div");
+      const tileContainer = document.createElement("div");
       tileContainer.id = "tile-container";
 
-      let xDescriptor = document.createElement("div");
+      const xDescriptor = document.createElement("div");
       xDescriptor.id = "x-descriptor";
 
-      let yDescriptor = document.createElement("div");
+      const yDescriptor = document.createElement("div");
       yDescriptor.id = "y-descriptor";
 
       this.shadowRoot.appendChild(board);
@@ -133,7 +133,7 @@ const {
         this[chessBoardFields.tiles][y] = [];
         for (let x = 0; x < 8; x++) {
           /** @var {ChessTile} tile */
-          let tile = document.createElement("div", { is: "chess-tile" });
+          const tile = document.createElement("div", { is: "chess-tile" });
           tile.coordinates = new Coordinates(x, y);
           tile.board = this;
           tileContainer.appendChild(tile);
@@ -142,8 +142,8 @@ const {
       }
 
       for (let i = 0; i < 8; i++) {
-        let xLabel = document.createElement("div");
-        let yLabel = document.createElement("div");
+        const xLabel = document.createElement("div");
+        const yLabel = document.createElement("div");
 
         xLabel.innerText = `x: ${i}`;
         yLabel.innerText = `y: ${i}`;
@@ -479,7 +479,7 @@ const {
    * @param {symbol} identifier
    * @param {symbol} colour
    */
-  let Piece = function (identifier, colour) {
+  const Piece = function (identifier, colour) {
     this.identifier = identifier;
     this.colour = colour;
     this[pieceFields.tile] = null
