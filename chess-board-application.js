@@ -1,10 +1,12 @@
 const {
+  /* eslint-disable no-unused-vars */
   Coordinates,
   Piece,
   IdentifierDefinition,
   identifiers,
   colours,
   colors
+  /* eslint-enable no-unused-vars */
 } = ((window) => {
   const chessBoardFields = {
     tiles: Symbol('tiles')
@@ -482,7 +484,7 @@ const {
   const Piece = function (identifier, colour) {
     this.identifier = identifier;
     this.colour = colour;
-    this[pieceFields.tile] = null
+    this[pieceFields.tile] = null;
   };
 
   /**
@@ -497,14 +499,15 @@ const {
   /**
    * @param {PieceMoveEvent} moveEvent 
    */
+  // eslint-disable-next-line no-unused-vars
   Piece.prototype.onMove = function (moveEvent) {
     // does nothing
-  }
+  };
 
   Reflect.defineProperty(Piece.prototype, "tile", {
     enumerable: true,
     get: function () {
-      return this[pieceFields.tile]
+      return this[pieceFields.tile];
     },
     set: function () { throw new TypeError('Piece.tile may not be written to. Use ChessTile.piece instead.'); },
   });
@@ -580,5 +583,5 @@ const {
     identifiers,
     colours,
     colors: colours
-  }
+  };
 })(window);

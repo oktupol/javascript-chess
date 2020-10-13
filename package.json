@@ -1,0 +1,23 @@
+{
+  "name": "javascript-chess",
+  "version": "1.0.0",
+  "description": "Test your OOP skills with chess",
+  "private": true,
+  "dependencies": {
+  },
+  "devDependencies": {
+    "eslint": "^7.11.0"
+  },
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oktupol/javascript-chess.git"
+  },
+  "author": "Sebastian Wieland",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oktupol/javascript-chess/issues"
+  },
+  "homepage": "https://github.com/oktupol/javascript-chess#readme"
+}
